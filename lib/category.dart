@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-// Main widget for the District screen
-class District extends StatefulWidget {
-  const District({super.key});
+// Main widget for the category screen
+class Category extends StatefulWidget {
+  const Category({super.key});
 
   @override
-  State<District> createState() => _DistrictState();
+  State<Category> createState() => _CategoryState();
 }
 
-// State class for the District widget
-class _DistrictState extends State<District> {
+// State class for the Category widget
+class _CategoryState extends State<Category> {
   // Key for the form to handle form validation
   final _formKey = GlobalKey<FormState>();
   
-  // TextEditingController to control the input field for district name
+  // TextEditingController to control the input field for category name
   final _nameController = TextEditingController();
   
-  // List to store district data fetched from Supabase
+  // List to store category data fetched from Supabase
   final List<Map<String, dynamic>> _dataList = [];
   
   // Flag to check if the app is in editing mode
   bool _isEditing = false;
   
-  // Index of the district being edited (if any)
+  // Index of the category being edited (if any)
   int? _editingIndex;
 
   // Initialize the widget and fetch data from the database
@@ -33,11 +33,11 @@ class _DistrictState extends State<District> {
     _fetchData(); // Fetch the data from Supabase when the widget is initialized
   }
 
-  // Function to fetch district data from Supabase
+  // Function to fetch category data from Supabase
   Future<void> _fetchData() async {
     try {
-      // Query to fetch all district data from 'tbl_district' table
-      final response = await Supabase.instance.client.from('tbl_district').select();
+      // Query to fetch all category data from 'tbl_category' table
+      final response = await Supabase.instance.client.from('tbl_category').select();
       
       if (response != null && response is List) {
         setState(() {
@@ -61,11 +61,11 @@ class _DistrictState extends State<District> {
         if (_isEditing && _editingIndex != null) {
           // If in editing mode, update the existing data
           final id = _dataList[_editingIndex!]['id'];
-          await Supabase.instance.client.from('tbl_district').update({'district': _nameController.text}).eq('id', id);
+          await Supabase.instance.client.from('tbl_category').update({'category': _nameController.text}).eq('id', id);
           
           setState(() {
             // Update the data locally
-            _dataList[_editingIndex!]['district'] = _nameController.text;
+            _dataList[_editingIndex!]['category'] = _nameController.text;
             _isEditing = false;
             _editingIndex = null;
             _nameController.clear();
@@ -78,8 +78,8 @@ class _DistrictState extends State<District> {
         } else {
           // If not editing, insert new data
           final response = await Supabase.instance.client
-              .from('tbl_district')
-              .insert({'district': _nameController.text});
+              .from('tbl_category')
+              .insert({'category': _nameController.text});
 
           if (response != null) {
             setState(() {
@@ -103,21 +103,21 @@ class _DistrictState extends State<District> {
     }
   }
 
-  // Function to enable editing of a specific district data
+  // Function to enable editing of a specific category data
   void _editData(int index) {
     setState(() {
       // Set editing mode to true and populate the text field with current data
       _isEditing = true;
       _editingIndex = index;
-      _nameController.text = _dataList[index]['district'];
+      _nameController.text = _dataList[index]['category'];
     });
   }
 
-  // Function to delete a district from the database
+  // Function to delete a category from the database
   void _deleteData(int index) async {
     try {
       final id = _dataList[index]['id'];
-      await Supabase.instance.client.from('tbl_district').delete().eq('id', id);
+      await Supabase.instance.client.from('tbl_category').delete().eq('id', id);
       
       setState(() {
         // Remove the deleted data from the list
@@ -136,14 +136,14 @@ class _DistrictState extends State<District> {
     }
   }
 
-  // Build the UI for the District page
+  // Build the UI for the category page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF2C2F33), // Dark background color for the page
       appBar: AppBar(
         title: const Text(
-          "District Manager", // Title of the app bar
+          "category Manager", // Title of the app bar
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF23272A), // Dark color for app bar
@@ -155,7 +155,7 @@ class _DistrictState extends State<District> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Add or Edit District", // Title for the form
+              "Add or Edit category", // Title for the form
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -163,16 +163,16 @@ class _DistrictState extends State<District> {
               ),
             ),
             const SizedBox(height: 10),
-            // Form to add or edit district
+            // Form to add or edit category
             Form(
               key: _formKey,
               child: Row(
                 children: [
                   Expanded(
                     child: TextFormField(
-                      controller: _nameController, // Controller for the district input field
+                      controller: _nameController, // Controller for the category input field
                       decoration: InputDecoration(
-                        hintText: "Enter district name",
+                        hintText: "Enter category name",
                         hintStyle: const TextStyle(color: Colors.white54),
                         filled: true,
                         fillColor: const Color(0xFF40444B), // Field background color
@@ -208,7 +208,7 @@ class _DistrictState extends State<District> {
             ),
             const SizedBox(height: 20),
             const Text(
-              "District Data", // Title for displaying district data
+              "category Data", // Title for displaying category data
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -245,7 +245,7 @@ class _DistrictState extends State<District> {
                               ),
                               DataColumn(
                                 label: Text(
-                                  'District Name',
+                                  'category Name',
                                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -257,8 +257,8 @@ class _DistrictState extends State<District> {
                               ),
                             ],
                             rows: _dataList.asMap().entries.map((entry) {
-                              int index = entry.key + 1; // District index
-                              Map<String, dynamic> item = entry.value; // District data
+                              int index = entry.key + 1; // category index
+                              Map<String, dynamic> item = entry.value; // category data
                               return DataRow(
                                 cells: [
                                   DataCell(Text(
@@ -266,7 +266,7 @@ class _DistrictState extends State<District> {
                                     style: const TextStyle(color: Colors.white),
                                   )),
                                   DataCell(Text(
-                                    item['district'],
+                                    item['category'],
                                     style: const TextStyle(color: Colors.white),
                                   )),
                                   DataCell(Row(
