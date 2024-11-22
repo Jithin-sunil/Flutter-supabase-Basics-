@@ -49,7 +49,7 @@ class _PlacePageState extends State<PlacePage> {
     try {
       final response = await Supabase.instance.client
           .from('tbl_place')
-          .select('id, place_name, district_id, tbl_district(district)'); // Fetch places along with district info
+          .select('id, place_name, district_id, tbl_district(district_name)'); // Fetch places along with district info
       if (response != null && response is List) {
         setState(() {
           _placeList = List<Map<String, dynamic>>.from(response); // Populate the place list
@@ -172,7 +172,7 @@ class _PlacePageState extends State<PlacePage> {
                       items: _districtList.map((district) {
                         return DropdownMenuItem<String>(
                           value: district['id'].toString(), // Set the district ID as the value
-                          child: Text(district['district'], style: const TextStyle(color: Colors.white)), // Display the district name
+                          child: Text(district['district_name'], style: const TextStyle(color: Colors.white)), // Display the district name
                         );
                       }).toList(),
                       onChanged: (value) {
@@ -253,7 +253,7 @@ class _PlacePageState extends State<PlacePage> {
                   final place = _placeList[index]; // Get the place data at the current index
                   return ListTile(
                     title: Text(place['place_name'], style: const TextStyle(color: Colors.white)), // Display the place name
-                    subtitle: Text(place['tbl_district']['district'], style: const TextStyle(color: Colors.white70)), // Display the district name
+                    subtitle: Text(place['tbl_district']['district_name'], style: const TextStyle(color: Colors.white70)), // Display the district name
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min, // Allow space for action buttons
                       children: [

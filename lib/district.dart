@@ -61,11 +61,11 @@ class _DistrictState extends State<District> {
         if (_isEditing && _editingIndex != null) {
           // If in editing mode, update the existing data
           final id = _dataList[_editingIndex!]['id'];
-          await Supabase.instance.client.from('tbl_district').update({'district': _nameController.text}).eq('id', id);
+          await Supabase.instance.client.from('tbl_district').update({'district_name': _nameController.text}).eq('id', id);
           
           setState(() {
             // Update the data locally
-            _dataList[_editingIndex!]['district'] = _nameController.text;
+            _dataList[_editingIndex!]['district_name'] = _nameController.text;
             _isEditing = false;
             _editingIndex = null;
             _nameController.clear();
@@ -79,7 +79,7 @@ class _DistrictState extends State<District> {
           // If not editing, insert new data
           final response = await Supabase.instance.client
               .from('tbl_district')
-              .insert({'district': _nameController.text});
+              .insert({'district_name': _nameController.text});
 
           if (response != null) {
             setState(() {
@@ -266,7 +266,7 @@ class _DistrictState extends State<District> {
                                     style: const TextStyle(color: Colors.white),
                                   )),
                                   DataCell(Text(
-                                    item['district'],
+                                    item['district_name'],
                                     style: const TextStyle(color: Colors.white),
                                   )),
                                   DataCell(Row(

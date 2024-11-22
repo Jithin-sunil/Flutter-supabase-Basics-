@@ -61,11 +61,11 @@ class _CategoryState extends State<Category> {
         if (_isEditing && _editingIndex != null) {
           // If in editing mode, update the existing data
           final id = _dataList[_editingIndex!]['id'];
-          await Supabase.instance.client.from('tbl_category').update({'category': _nameController.text}).eq('id', id);
+          await Supabase.instance.client.from('tbl_category').update({'category_name': _nameController.text}).eq('id', id);
           
           setState(() {
             // Update the data locally
-            _dataList[_editingIndex!]['category'] = _nameController.text;
+            _dataList[_editingIndex!]['category_name'] = _nameController.text;
             _isEditing = false;
             _editingIndex = null;
             _nameController.clear();
@@ -79,7 +79,7 @@ class _CategoryState extends State<Category> {
           // If not editing, insert new data
           final response = await Supabase.instance.client
               .from('tbl_category')
-              .insert({'category': _nameController.text});
+              .insert({'category_name': _nameController.text});
 
           if (response != null) {
             setState(() {
@@ -109,7 +109,7 @@ class _CategoryState extends State<Category> {
       // Set editing mode to true and populate the text field with current data
       _isEditing = true;
       _editingIndex = index;
-      _nameController.text = _dataList[index]['category'];
+      _nameController.text = _dataList[index]['category_name'];
     });
   }
 
@@ -266,7 +266,7 @@ class _CategoryState extends State<Category> {
                                     style: const TextStyle(color: Colors.white),
                                   )),
                                   DataCell(Text(
-                                    item['category'],
+                                    item['category_name'],
                                     style: const TextStyle(color: Colors.white),
                                   )),
                                   DataCell(Row(

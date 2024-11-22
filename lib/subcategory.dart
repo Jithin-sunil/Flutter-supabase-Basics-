@@ -49,7 +49,7 @@ class _SubCategoryState extends State<SubCategory> {
     try {
       final response = await Supabase.instance.client
           .from('tbl_subcategory')
-          .select('id, subcategory_name, category_id, tbl_category(category)'); // Fetch subcategory along with category info
+          .select('id, subcategory_name, category_id, tbl_category(category_name)'); // Fetch subcategory along with category info
       if (response != null && response is List) {
         setState(() {
           _subcategoryList = List<Map<String, dynamic>>.from(response); // Populate the subcategory list
@@ -172,7 +172,7 @@ class _SubCategoryState extends State<SubCategory> {
                       items: _categoryList.map((category) {
                         return DropdownMenuItem<String>(
                           value: category['id'].toString(), // Set the category ID as the value
-                          child: Text(category['category'], style: const TextStyle(color: Colors.white)), // Display the category name
+                          child: Text(category['category_name'], style: const TextStyle(color: Colors.white)), // Display the category name
                         );
                       }).toList(),
                       onChanged: (value) {
@@ -253,7 +253,7 @@ class _SubCategoryState extends State<SubCategory> {
                   final subcategory = _subcategoryList[index]; // Get the subcategory data at the current index
                   return ListTile(
                     title: Text(subcategory['subcategory_name'], style: const TextStyle(color: Colors.white)), // Display the subcategory name
-                    subtitle: Text(subcategory['tbl_category']['category'], style: const TextStyle(color: Colors.white70)), // Display the category name
+                    subtitle: Text(subcategory['tbl_category']['category_name'], style: const TextStyle(color: Colors.white70)), // Display the category name
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min, // Allow space for action buttons
                       children: [

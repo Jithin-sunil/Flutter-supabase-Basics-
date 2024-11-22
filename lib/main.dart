@@ -7,8 +7,8 @@ import 'package:webapp/dashboard.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-    url: 'https://uizjhuexeotwhoppabms.supabase.co', // Replace with your Supabase URL
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpempodWV4ZW90d2hvcHBhYm1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzE2NjgxMTEsImV4cCI6MjA0NzI0NDExMX0.fseHcYVt5ipT9bRVyDk7mrhimMBbQT48GCgT6WnxWYM', // Replace with your Supabase anon key
+    url: 'https://wowplhhxxcpximnejqmp.supabase.co', // Replace with your Supabase URL
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indvd3BsaGh4eGNweGltbmVqcW1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIyNDczMDUsImV4cCI6MjA0NzgyMzMwNX0.xmR6TY_ZDqHvJSv-y5k2cCOhaD0Mmjynq-BGjHV-8DY', // Replace with your Supabase anon key
   );
   runApp(const MainApp());
 }
